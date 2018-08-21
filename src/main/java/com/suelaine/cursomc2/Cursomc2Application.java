@@ -14,9 +14,10 @@ import com.suelaine.cursomc2.repositories.ProdutoRepository;
 
 @SpringBootApplication
 public class Cursomc2Application implements CommandLineRunner {
+	//pemrite implementar o médtoo auxiliar pra executar uma ação quando a aplicação inciiar
 	
 	@Autowired
-	private CategoriaRepository categoriaRepository;
+	private CategoriaRepository categoriaRepository;//dependência
 	@Autowired
 	private ProdutoRepository produtoRepository;
 	

@@ -12,6 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+//******************************
+//CAMADA DE DOMÍNIO
+//******************************
+
 @Entity
 public class Produto implements Serializable{	
 	private static final long serialVersionUID = 1L;
@@ -28,7 +34,8 @@ public class Produto implements Serializable{
       inverseJoinColumns = @JoinColumn(name = "categoria_id")
 	)
 
-	
+	//do outro lado da associação já foram buscados os objetos
+	@JsonBackReference//evita ciclos faz parar aqui
 	private List<Categoria> categorias  = new ArrayList<>();
 	
 	public Produto() {
