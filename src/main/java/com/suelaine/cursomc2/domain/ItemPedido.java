@@ -3,10 +3,13 @@ package com.suelaine.cursomc2.domain;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido {
 	@EmbeddedId// um id embutido em um tipo auxiliar
 	
+	@JsonIgnore
 	private ItemPedidoPK id = new ItemPedidoPK();//quando temos uma entidade do jpa tendo como atributo uma outra classe, tem que colocar nela 
 	//embedable pra dizer que ela é um subtipo
 	private Double desconto;
@@ -25,10 +28,12 @@ public class ItemPedido {
 		this.preco = preco;
 	}
 	
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 		
 	}
+	
 	
 	public Produto getProduto() {
 		return id.getProduto();
