@@ -1,5 +1,6 @@
 package com.suelaine.cursomc2;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import com.suelaine.cursomc2.domain.Cidade;
 import com.suelaine.cursomc2.domain.Cliente;
 import com.suelaine.cursomc2.domain.Endereco;
 import com.suelaine.cursomc2.domain.Estado;
+import com.suelaine.cursomc2.domain.Pagamento;
+import com.suelaine.cursomc2.domain.PagamentoComBoleto;
+import com.suelaine.cursomc2.domain.PagamentoComCartao;
+import com.suelaine.cursomc2.domain.Pedido;
 import com.suelaine.cursomc2.domain.Produto;
+import com.suelaine.cursomc2.domain.enums.EstadoPagamento;
 import com.suelaine.cursomc2.domain.enums.TipoCliente;
 import com.suelaine.cursomc2.repositories.CategoriaRepository;
 import com.suelaine.cursomc2.repositories.CidadeRepository;
 import com.suelaine.cursomc2.repositories.ClienteRepository;
 import com.suelaine.cursomc2.repositories.EnderecoRepository;
 import com.suelaine.cursomc2.repositories.EstadoRepository;
+import com.suelaine.cursomc2.repositories.PagamentoRepository;
+import com.suelaine.cursomc2.repositories.PedidoRepository;
 import com.suelaine.cursomc2.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -37,6 +45,10 @@ public class Cursomc2Application implements CommandLineRunner {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 	
 
 	public static void main(String[] args) {
@@ -57,9 +69,27 @@ public class Cursomc2Application implements CommandLineRunner {
 		Estado est1 = new Estado(null,"Minas Gerais");
 		Estado est2 = new Estado(null,"São Paulo");
 		
-		Cidade c1 = new Cidade(null,"Uberlândia",est1);
+		Cidade c1 = new Cidade(null,"Uberlândia",est1); 
 		Cidade c2 = new Cidade(null,"São Paulo",est2);
-		Cidade c3 = new Cidade(null,"Campinas",est2);
+		Cidade c3 = new Cidade(null,"Campinas",est2);		
+			
+		Cliente cli1 = new Cliente(null,"Maria Silva","maria@gmail.com","36734267845",TipoCliente.PESSOAFISICA);
+		
+		Endereco e1 = new Endereco(null,"Rua das flores","300","Apt305","Jardim","21412412",cli1,c1);
+		Endereco e2 = new Endereco(null,"Av Matos","105 ","sala 800","Centro ","21412412",cli1,c2);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+		
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 19:35"),null);
+		ped2.setPagamento(pagto2);
+		
+		
 		
 		//transforma EM LISTA 
 		est1.getCidades().addAll(Arrays.asList(c1));
@@ -73,14 +103,15 @@ public class Cursomc2Application implements CommandLineRunner {
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
 		
-		Cliente cli1 = new Cliente(null,"Maria Silva","maria@gmail.com","36734267845",TipoCliente.PESSOAFISICA);
-		
 		cli1.getTelefones().addAll(Arrays.asList("412124","124124"));
 		
-		Endereco e1 = new Endereco(null,"Rua das flores","300","Apt305","Jardim","21412412",cli1,c1);
-		Endereco e2 = new Endereco(null,"Av Matos","105 ","sala 800","Centro ","21412412",cli1,c2);
+		
 		
 		 cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+		 
+		 cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		 
+		 
 		  
 		//salva tudo no banco de dados
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
@@ -89,6 +120,8 @@ public class Cursomc2Application implements CommandLineRunner {
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1,e2));
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 
 		
 	}
