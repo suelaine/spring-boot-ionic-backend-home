@@ -15,7 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //******************************
@@ -39,7 +38,7 @@ public class Produto implements Serializable{
 	)
 
 	//do outro lado da associação já foram buscados os objetos
-	@JsonBackReference//evita ciclos faz parar aqui
+	@JsonIgnore//evita ciclos faz parar aqui
 	private List<Categoria> categorias  = new ArrayList<>();
 	
 	
