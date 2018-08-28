@@ -1,6 +1,7 @@
 package com.suelaine.cursomc2.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,17 +26,19 @@ public class Cliente  implements Serializable{
 	private String nome;
 	private String email;
 	private String cpfOuCpf;
-	private int tipo;
+	private Integer tipo;
+	
+	
+	
+	//liberra serialização dos endereços
+	//@JsonManagedReference
+	@OneToMany(mappedBy = "cliente")
+	private List<Endereco> enderecos =  new ArrayList<>();
 	
 	//set garante que não vai ter repetição
 	@ElementCollection
 	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefones = new HashSet<>() ;
-	
-	//liberra serialização dos endereços
-	//@JsonManagedReference
-	@OneToMany(mappedBy = "cliente")
-	private List<Endereco> enderecos;
 	
 	private Cliente() {}
 
