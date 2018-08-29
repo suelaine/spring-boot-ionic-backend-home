@@ -49,11 +49,20 @@ public class CategoriaResource {
 
 	// atualização de uma categoria
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) throws ObjectNotFoundException{
+	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 
 	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@RequestBody Categoria obj, @PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+
+	}
+	
+	
 
 }
