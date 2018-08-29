@@ -35,5 +35,14 @@ public class CategoriaService {
 		Optional<Categoria> obj = repo.findById(id);//faz a busca no banco de dados com base no id e retorna o objeto rpontinho
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 		"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
-		}
+	}
+	
+	public Categoria insert(Categoria obj) {
+		obj.setId(null);
+		return repo.save(obj);
+		
+	}
+	
+	
+	
 }

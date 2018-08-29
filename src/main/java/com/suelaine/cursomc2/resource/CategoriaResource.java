@@ -1,11 +1,15 @@
 package com.suelaine.cursomc2.resource;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.suelaine.cursomc2.domain.Categoria;
 import com.suelaine.cursomc2.services.CategoriaService;
@@ -31,6 +35,16 @@ public class CategoriaResource {
 		//metodo ok diz que a operação ocorreu com sucesso
 		//objeto complexo do protocola http
 		
+	}
+	
+	//método para receber a categoria e inserir no banco de dados
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@RequestBody	Categoria obj){//@RequestBody faz o Json ser convertido
+		obj = service.insert(obj);//objeto nserido no bd que vai criar novo id
+		//pega a URI (caminho tipo url do novo recurso que foi inserido
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
+				path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
 	}
 
 }
