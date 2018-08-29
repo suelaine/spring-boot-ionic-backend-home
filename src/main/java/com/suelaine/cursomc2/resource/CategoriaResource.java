@@ -1,6 +1,8 @@
 package com.suelaine.cursomc2.resource;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.suelaine.cursomc2.DTO.CategoriaDTO;
 import com.suelaine.cursomc2.domain.Categoria;
 import com.suelaine.cursomc2.services.CategoriaService;
-
-import javassist.tools.rmi.ObjectNotFoundException;
 
 //Conversa com o objeto de Serviço capaz de entregar uma categoria
 @RestController
@@ -27,8 +28,7 @@ public class CategoriaResource {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET) // endpoint
 	// (@PathVariable serve para entender que o id de cima correesponde ao debaixo
-
-	public ResponseEntity<Categoria> find(@PathVariable Integer id) throws ObjectNotFoundException {
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		// tipo especial que armazena várias informações de uma resposta htttp para um
 		// serviço REST
 		Categoria obj = service.find(id);
@@ -63,6 +63,21 @@ public class CategoriaResource {
 
 	}
 	
+	@RequestMapping(method = RequestMethod.GET) // endpoint
+	// (@PathVariable serve para entender que o id de cima correesponde ao debaixo
+	public ResponseEntity<List<CategoriaDTO>> findAll(){
+		// tipo especial que armazena várias informações de uma resposta htttp para um
+		// serviço REST
+		List<Categoria> list = service.findAll();
+		List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
+		// metodo ok diz que a operação ocorreu com sucesso
+		// objeto complexo do protocola http
+
+	}
+	
+	
+	//DTO = OBJETO QUE VAI TER SOMENTE OS DADOS QUE EU PRECISO
 	
 
 }
