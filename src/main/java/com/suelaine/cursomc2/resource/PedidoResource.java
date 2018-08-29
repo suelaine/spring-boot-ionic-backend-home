@@ -24,7 +24,7 @@ public class PedidoResource {
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)//endpoint
 	//(@PathVariable serve para entender que o id de cima correesponde ao debaixo
 	
-	public ResponseEntity<?> find(@PathVariable Integer id) throws ObjectNotFoundException {
+	public ResponseEntity<Pedido> find(@PathVariable Integer id) throws ObjectNotFoundException {
 		//tipo especial que armazena várias informações de uma resposta htttp para um serviço REST
 		Pedido obj =  service.find(id);		
 		return ResponseEntity.ok().body(obj);
