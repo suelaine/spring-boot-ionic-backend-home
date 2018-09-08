@@ -6,7 +6,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.suelaine.cursomc2.domain.Cliente;
+import com.suelaine.cursomc2.services.validation.ClienteUpdate;
 
+@ClienteUpdate
 public class ClienteDTO {
 	
 	private Integer id;
