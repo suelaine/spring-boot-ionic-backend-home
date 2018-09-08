@@ -1,5 +1,7 @@
 package com.suelaine.cursomc2.repositories;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +16,7 @@ import com.suelaine.cursomc2.domain.Cliente;
 public interface ClienteRepository extends JpaRepository<Cliente, Integer>{//tioespecialdospring
  //um objeto desse tipo CategoriaRepository vai ser capaz de realizar operações de acesso a dados referentes ao objeto Categoria
 	//que está mapeado com a tabela Categoria
+	
+	//@Transactional(readOnly=true) era pra deixra mais rapido
+	Cliente findByEmail(String email);//o springdata implementa o metodo pra vc
 }
