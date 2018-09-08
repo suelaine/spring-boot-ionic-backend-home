@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -32,7 +33,8 @@ public class Cliente  implements Serializable{
 	
 	//liberra serialização dos endereços
 	//@JsonManagedReference
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", cascade=CascadeType.ALL)
+	//Toda operação que modificar um cliente reflete no endereço
 	private List<Endereco> enderecos =  new ArrayList<>();
 	
 	//set garante que não vai ter repetição
