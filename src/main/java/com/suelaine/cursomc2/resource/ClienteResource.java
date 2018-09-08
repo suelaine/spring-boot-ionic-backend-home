@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.suelaine.cursomc2.DTO.ClienteDTO;
-import com.suelaine.cursomc2.domain.Cliente;
+import com.suelaine.cursomc2.DTO.ClienteNewDTO;
 import com.suelaine.cursomc2.domain.Cliente;
 import com.suelaine.cursomc2.services.ClienteService;
 
@@ -47,7 +47,7 @@ public class ClienteResource {
 	
 	// método para receber a categoria e inserir no banco de dados
 		@RequestMapping(method = RequestMethod.POST)
-		public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDto) {// @RequestBody faz o Json ser convertido
+		public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {// @RequestBody faz o Json ser convertido
 			Cliente obj = service.fromDTO(objDto);
 			obj = service.insert(obj);// objeto nserido no bd que vai criar novo id
 			// pega a URI (caminho tipo url do novo recurso que foi inserido
